@@ -4,7 +4,8 @@ import { NavigationContainer } from "@react-navigation/native";
 
 import Home from "./Home";
 import Info from "./Info";
-import NavBar from "./NavBar";
+import NavBar from "../components/NavBar";
+import Map from './Map';
 
 const Stack = createStackNavigator();
 
@@ -19,6 +20,8 @@ const Navigator = () => {
                 name="Info" component={Info}/>
                 <Stack.Screen options={{ headerShown: false }} 
                 name="NavBar" component={NavBar}/>
+                <Stack.Screen options={{ headerShown: false }} 
+                name="Map" component={Map}/>
             </Stack.Navigator>
         </NavigationContainer>
     );

@@ -1,6 +1,6 @@
 import React from 'react'
 import { View, StyleSheet, SafeAreaView, Platform, StatusBar} from 'react-native'
-import Navigator from './src/components/Navigator'
+import Navigator from './src/Screens/Navigator'
 
 const App = () => {
   return (

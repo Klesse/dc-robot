@@ -1,6 +1,6 @@
 import React from 'react'
 import { View, Text, StyleSheet, Image, TouchableOpacity, Alert } from 'react-native'
-import NavBar from './NavBar'
+import NavBar from '../components/NavBar'
 import {Feather} from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
 

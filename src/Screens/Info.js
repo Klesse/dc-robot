@@ -1,7 +1,7 @@
 import React from 'react'
 import { ScrollView, View, StyleSheet, Text } from 'react-native'
 import { Feather } from '@expo/vector-icons'
-import NavBar from './NavBar'
+import NavBar from '../components/NavBar'
 
 
 const Info = () => {

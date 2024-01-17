@@ -15,6 +15,10 @@ const NavBar = () => {
         navigation.navigate('Home');
     }
 
+    const goToMapScreen = () => {
+      navigation.navigate('Map');
+  }
+
 
     return (
         <SafeAreaView style={[styles.container, {height: viewHeight}]}>
@@ -29,7 +33,9 @@ const NavBar = () => {
                 <Feather name={'hard-drive'} style={[styles.icons, {fontSize:viewHeight*0.6}]}/>
             </View>
             <View style={styles.icons_right}>
+              <TouchableOpacity onPress={goToMapScreen}>
                 <Feather name={'map-pin'} style={[styles.icons, {fontSize:viewHeight*0.6}]}/>
+              </TouchableOpacity>  
                 <Feather name={'user'} style={[styles.icons, {fontSize:viewHeight*0.6}]}/>
                 <Feather name={'settings'} style={[styles.icons, {fontSize:viewHeight*0.6}]}/>
             </View>
