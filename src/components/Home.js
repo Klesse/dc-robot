@@ -1,4 +1,4 @@
-import Reacth from 'react'
+import React from 'react'
 import { View, Text, StyleSheet, Image, TouchableOpacity, Alert } from 'react-native'
 import NavBar from './NavBar'
 import {Feather} from '@expo/vector-icons'
