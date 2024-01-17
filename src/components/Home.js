@@ -2,13 +2,22 @@ import React from 'react'
 import { View, Text, StyleSheet, Image, TouchableOpacity, Alert } from 'react-native'
 import NavBar from './NavBar'
 import {Feather} from '@expo/vector-icons'
+import { useNavigation } from '@react-navigation/native'
 
 // Bluetooth Serial (Sem ser LE)
 // MorphCast
 
 const Home = () => {
+
+    const navigation = useNavigation();
+
+    const goToInfoScreen = () => {
+        navigation.navigate('Info');
+      };
+    
+
     const handlePress = () => {
-        Alert.alert('Hey Brainer!');
+        Alert.alert('Olá, Sou o Robô do DC!');
       };
 
     return (
@@ -22,9 +31,14 @@ const Home = () => {
                     <Text style={styles.buttonText}>Pressione-me</Text>
                 </TouchableOpacity>
             </View>
-            <View style={styles.icon_container}>
-                <Feather name={"info"} style={styles.info_icon}/>
-            </View>
+            
+                <View style={styles.icon_container}>
+                    <TouchableOpacity onPress={goToInfoScreen}>
+                        <Feather name={"info"} style={styles.info_icon}/>
+                    </TouchableOpacity>
+                </View>
+            
+            
         </View>
         
     )

@@ -1,12 +1,11 @@
 import React from 'react'
 import { View, StyleSheet, SafeAreaView, Platform, StatusBar} from 'react-native'
-import Home from './src/components/Home'
-import Info from './src/components/Info'
+import Navigator from './src/components/Navigator'
 
 const App = () => {
   return (
     <SafeAreaView style={styles.container}>
-      <Info/>
+      <Navigator/>
     </SafeAreaView>
   )
 }

@@ -1,18 +1,30 @@
 
 import React from 'react'
-import {View, Text, SafeAreaView, StyleSheet, Dimensions} from 'react-native'
+import {View, Text, SafeAreaView, StyleSheet, Dimensions, TouchableOpacity} from 'react-native'
 import {Feather} from '@expo/vector-icons'
+import { useNavigation } from '@react-navigation/native'
 
 const NavBar = () => {
 
     const windowHeight = Dimensions.get('window').height;
     const viewHeight = windowHeight * 0.1;
 
+    const navigation = useNavigation();
+
+    const goToHomeScreen = () => {
+        navigation.navigate('Home');
+    }
+
+
     return (
         <SafeAreaView style={[styles.container, {height: viewHeight}]}>
             <View style={styles.icons_left}>
-                <Feather name={'home'} style={[styles.icons, {fontSize:viewHeight*0.6}]}/>
+              <TouchableOpacity onPress={goToHomeScreen}>
+                  <Feather name={'home'} style={[styles.icons, {fontSize:viewHeight*0.6}]}/>
+                </TouchableOpacity>
             </View>
+            
+
             <View style={styles.icons_center}>
                 <Feather name={'hard-drive'} style={[styles.icons, {fontSize:viewHeight*0.6}]}/>
             </View>
@@ -63,5 +75,6 @@ const styles = StyleSheet.create({
         padding:2
     }
   })
+
 export default NavBar;
 
