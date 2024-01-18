@@ -6,6 +6,8 @@ import Home from "./Home";
 import Info from "./Info";
 import NavBar from "../components/NavBar";
 import Map from './Map';
+import People from './People';
+import Settings from './Settings';
 
 const Stack = createStackNavigator();
 
@@ -22,6 +24,10 @@ const Navigator = () => {
                 name="NavBar" component={NavBar}/>
                 <Stack.Screen options={{ headerShown: false }} 
                 name="Map" component={Map}/>
+                <Stack.Screen options={{ headerShown: false }} 
+                name="People" component={People}/>
+                <Stack.Screen options={{ headerShown: false }} 
+                name="Settings" component={Settings}/>
             </Stack.Navigator>
         </NavigationContainer>
     );

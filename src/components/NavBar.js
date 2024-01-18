@@ -17,7 +17,15 @@ const NavBar = () => {
 
     const goToMapScreen = () => {
       navigation.navigate('Map');
-  }
+    }
+
+    const gotToPeopleScreen = () => {
+      navigation.navigate('People')
+    }
+
+    const goToSettingsScreen = () => {
+      navigation.navigate('Settings')
+    }
 
 
     return (
@@ -35,9 +43,13 @@ const NavBar = () => {
             <View style={styles.icons_right}>
               <TouchableOpacity onPress={goToMapScreen}>
                 <Feather name={'map-pin'} style={[styles.icons, {fontSize:viewHeight*0.6}]}/>
-              </TouchableOpacity>  
+              </TouchableOpacity>
+              <TouchableOpacity onPress={gotToPeopleScreen}>
                 <Feather name={'user'} style={[styles.icons, {fontSize:viewHeight*0.6}]}/>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={goToSettingsScreen}>
                 <Feather name={'settings'} style={[styles.icons, {fontSize:viewHeight*0.6}]}/>
+              </TouchableOpacity>
             </View>
             
         </SafeAreaView>
