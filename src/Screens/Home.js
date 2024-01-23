@@ -16,9 +16,9 @@ const Home = () => {
       };
     
 
-    const handlePress = () => {
-        Alert.alert('Olá, Sou o Robô do DC!');
-      };
+      const goToStartChatScreen = () => {
+        navigation.navigate('StartChat')
+      }
 
     return (
         <View style={styles.container}>
@@ -27,8 +27,8 @@ const Home = () => {
                 <Image source={require('../../assets/robo.png')} 
                 style={styles.image}
                 resizeMode="contain"/>
-                <TouchableOpacity style={styles.button} onPress={handlePress}>
-                    <Text style={styles.buttonText}>Pressione-me</Text>
+                <TouchableOpacity style={styles.button} onPress={goToStartChatScreen}>
+                    <Text style={styles.buttonText}>Iniciar chat</Text>
                 </TouchableOpacity>
             </View>
             

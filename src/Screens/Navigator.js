@@ -8,6 +8,8 @@ import NavBar from "../components/NavBar";
 import Map from './Map';
 import People from './People';
 import Settings from './Settings';
+import StartChat from './StartChat';
+import Chat from './Chat';
 
 const Stack = createStackNavigator();
 
@@ -18,6 +20,10 @@ const Navigator = () => {
             <Stack.Navigator initialRouteName="Home">
                 <Stack.Screen options={{ headerShown: false }} 
                 name="Home" component={Home}/>
+                <Stack.Screen options={{ headerShown: false }} 
+                name="StartChat" component={StartChat}/>
+                <Stack.Screen options={{ headerShown: false }} 
+                name="Chat" component={Chat}/>
                 <Stack.Screen options={{ headerShown: false }} 
                 name="Info" component={Info}/>
                 <Stack.Screen options={{ headerShown: false }} 
