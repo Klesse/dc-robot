@@ -1,16 +1,19 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { SafeAreaView, View, TouchableOpacity, Text, StyleSheet } from 'react-native';
+import { SafeAreaView, View, TouchableOpacity, Text, StyleSheet, Dimensions } from 'react-native';
 import { Camera } from 'expo-camera';
 import { useNavigation } from '@react-navigation/native'
 
 import NavBar from '../components/NavBar';
 
+const windowHeight = Dimensions.get('window').height;
+const windowWidth = Dimensions.get('window').width;
+
 const StartChat = () => {
 
   const navigation = useNavigation();
 
-  const goToChatScreen = () => {
-    navigation.navigate('Chat');
+  const goToChatScreen = (color) => {
+    navigation.navigate('Chat', {color});
   }
 
   const [hasPermission, setHasPermission] = useState(null);
@@ -44,19 +47,19 @@ const StartChat = () => {
           </View>
           <View style={styles.buttons_container}>
             <Text style={styles.title}>
-              Você está API_RESULT
+              Selecione como está se sentindo
             </Text>
-            <TouchableOpacity onPress={goToChatScreen} style={styles.button}>
-              <Text style={styles.buttonText}> Opção 1 </Text>
+            <TouchableOpacity onPress={() => goToChatScreen('#FFFF99')} style={[styles.button, styles.happyButton]}>
+              <Text style={styles.buttonText}> Feliz </Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.button}>
-              <Text style={styles.buttonText}> Opção 2 </Text>
+            <TouchableOpacity onPress={() => goToChatScreen('#FFFF99')} style={[styles.button, styles.sadButton]}>
+              <Text style={styles.buttonText}> Triste </Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.button}>
-              <Text style={styles.buttonText}> Opção 3 </Text>
+            <TouchableOpacity onPress={() => goToChatScreen('#CCCCCC')} style={[styles.button, styles.normalButton]}>
+              <Text style={styles.buttonText}> Normal </Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.button}>
-              <Text style={styles.buttonText}> Opção 4 </Text>
+            <TouchableOpacity onPress={() => goToChatScreen('#FFD9D9')} style={[styles.button, styles.angryButton]}>
+              <Text style={styles.buttonText}> Raiva </Text>
             </TouchableOpacity>
           </View>
       </View>
@@ -77,13 +80,13 @@ const styles = StyleSheet.create({
   camera_container: {
     flexDirection:'column',
     justifyContent:'space-around',
-    marginTop:'2%',
+    marginTop:'0.5%',
+    marginBottom:'3%',
     borderRadius: 20, 
     overflow: 'hidden',
     borderColor: '#6F73D2',
     borderWidth: 2,
-    width: '27.5%',
-    aspectRatio: 3 / 4,
+    width: windowWidth*0.35,
   },
   camera: {
     height:'100%',
@@ -102,17 +105,44 @@ const styles = StyleSheet.create({
     width:'100%',
     textAlign:'center',
     backgroundColor: '#6F73D2',
-    color:'white',
+    color:'#F5F5F5',
     
   },
   button: {
     width:'60%',
     padding: 12,
     borderRadius: 20,
-    backgroundColor: '#6F73D2',
+  },
+  happyButton: {
+    backgroundColor: '#FFD700',
+    elevation: 5,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.5,
+    shadowRadius: 5,
+  },
+  sadButton: {
+    backgroundColor: '#87CEEB',
+    elevation: 5, // Para Android
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.5,
+    shadowRadius: 5,
+  },
+  normalButton: {
+    backgroundColor: '#808080',
+    elevation: 5,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.5,
+    shadowRadius: 5,
+  },
+  angryButton: {
+    backgroundColor: '#FF0000',
+    elevation: 5,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.5,
+    shadowRadius: 5,
   },
   buttonText: {
-      color: 'white',
+      color: '#F5F5F5',
       textAlign:'center',
       fontWeight: 'bold'
   },

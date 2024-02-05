@@ -1,7 +1,10 @@
 import React from 'react'
-import { ScrollView, View, StyleSheet, Text } from 'react-native'
+import { ScrollView, View, StyleSheet, Text, Dimensions } from 'react-native'
 import { Feather } from '@expo/vector-icons'
 import NavBar from '../components/NavBar'
+
+const windowHeight = Dimensions.get('window').height;
+const windowWidth = Dimensions.get('window').width;
 
 
 const Info = () => {
@@ -70,7 +73,7 @@ const styles = StyleSheet.create({
     },
     title: {
         textAlign:'center',
-        fontSize:24,
+        fontSize:windowHeight*0.08,
         color:'#6F73D2',
         fontWeight:'bold',
         padding: 10,
@@ -93,7 +96,7 @@ const styles = StyleSheet.create({
     },
     info_card_title:{
         fontWeight:'bold',
-        fontSize:18,
+        fontSize:windowHeight*0.05,
         textDecorationLine: 'underline',
         color: 'white',
         textAlign:'center'

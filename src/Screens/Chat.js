@@ -1,113 +1,182 @@
 import React, { useState } from 'react';
-import { SafeAreaView, View, StyleSheet, Text, FlatList, TextInput, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, Text, 
+    FlatList, TextInput, TouchableOpacity, ActivityIndicator } from 'react-native';
 import NavBar from '../components/NavBar';
 import axios from 'axios';
+import ChatBubble from '../components/ChatBubble';
+import {speak, isSpeakingAsync, stop} from 'expo-speech';
+import { GEMINI_API_KEY } from "@env"
 
-const Chat = () => {
-    const [data, setData] = useState([]);
-    const apiKey = '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';
-    const apiUrl = 'https://api.openai.com/v1/engines/text-davinci-002/completions';
+const Chat = ({route}) => {
 
-    const [textInput, setTextInput] = useState('');
+    const {color} = route.params;
 
-    const handleSend = async () => {
-        const prompt = textInput;
+    const [chat, setChat] = useState([]);
+    const [userInput, setUserInput] = useState("");
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+    const [isSpeaking, setIsSpeaking] = useState(false);
+    const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+
+    const handleUserInput = async () => {
+        let updatedChat = [
+            ...chat,
+            {
+                role: "user",
+                parts: [{text: userInput}],
+
+            },
+
+        ];
+
+        setLoading(true);
+
         try {
             const response = await axios.post(
-                apiUrl,
+                `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${GEMINI_API_KEY}`,
                 {
-                    prompt: prompt,
-                    max_tokens: 1024,
-                    temperature: 0.5,
-                },
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${apiKey}`,
-                    },
+                    contents: updatedChat,
                 }
             );
 
-            const text = response.data.choices[0].text;
-            setData([...data, { type: 'user', text: textInput }, { type: 'bot', text: text }]);
-            setTextInput('');
+            console.log("Gemini Pro API response:", response.data);
+
+            const modelResponse = 
+                response.data?.candidates?.[0]?.content?.parts?.[0]?.text || "";
+            
+            if (modelResponse) {
+                const updateChatWithModel = [
+                    ...updatedChat,
+                    {
+                        role:"model",
+                        parts: [{text: modelResponse}],
+
+                    },
+                ]
+
+                setChat(updateChatWithModel);
+                setUserInput("");
+            }
+
         } catch (error) {
-            console.error('Error sending request to OpenAI API:', error);
-            // Trate o erro conforme necessário
-            // Por exemplo, você pode exibir uma mensagem de erro para o usuário
+            console.error("Error calling Gemini Pro API:",error);
+            console.error("Error response:",error.response);
+            setError("Aconteceu um erro. Tente novamente");
+        } finally {
+            setLoading(false);
+        }
+        setIsButtonDisabled(true);
+
+    };
+
+    const handleSpeech = async (text) => {
+        if (isSpeaking){
+            stop();
+            setIsSpeaking(false);
+        } else {
+            if(!(await isSpeakingAsync())) {
+                speak(text, {language: 'pt-BR'});
+                setIsSpeaking(true);
+            }
         }
     };
 
+    const renderChatItem = ({item}) => (
+        <ChatBubble
+        role={item.role}
+        text={item.parts[0].text}
+        onSpeech={() => handleSpeech(item.parts[0].text)}
+        />
+    );
+
+    const handleInputChange = (text) => {
+        setUserInput(text);
+        setIsButtonDisabled(text.trim().length === 0);
+    };
+
     return (
-        <SafeAreaView>
-            <NavBar />
-            <View style={styles.container}>
-                <Text style={styles.title}> AI Chat Bot </Text>
+        <View style={{flex:1}}>
+            <NavBar/>
+            <View style={[styles.container,{backgroundColor:color}]}>
+                <Text style={styles.title}>Robô do DC</Text>
                 <FlatList
-                    data={data}
-                    keyExtractor={(item, index) => index.toString()}
-                    style={styles.body}
-                    renderItem={({ item }) => (
-                        <View style={{ flexDirection: 'row', padding: 10 }}>
-                            <Text style={{ fontWeight: 'bold', color: item.type === 'user' ? 'green' : 'red' }}>
-                                {item.type === 'user' ? 'Ninza' : 'Bot'}
-                            </Text>
-                            <Text style={styles.bot}>{item.text}</Text>
-                        </View>
-                    )}
+                data={chat}
+                renderItem={renderChatItem}
+                keyExtractor={(item, index) => index.toString()}
+                contentContainerStyle={styles.chatContainer}
                 />
-                <TextInput
-                    style={styles.input}
-                    value={textInput}
-                    onChangeText={(text) => setTextInput(text)}
-                    placeholder="Ask me anything"
-                />
-                <TouchableOpacity style={styles.button} onPress={handleSend}>
-                    <Text style={styles.buttonText}>Send</Text>
-                </TouchableOpacity>
+                <View style={styles.inputContainer}>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Digite sua mensagem..."
+                        placeholderTextColor='#aaa'
+                        value={userInput}
+                        onChangeText={handleInputChange}
+                    />
+                    <TouchableOpacity style={[styles.button]} onPress={handleUserInput} disabled={isButtonDisabled}>
+                        <Text style={styles.buttonText}>Enviar</Text>
+                    </TouchableOpacity>
+                </View>
+                {loading && <ActivityIndicator style={styles.loading} color="#333" />}
+                {error && <Text style={styles.error}>{error}</Text>}
             </View>
-        </SafeAreaView>
+        </View>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
-        alignItems: 'center',
+        flex:1,
+        padding:16,
+        backgroundColor:'#f8f8f8',
     },
     title: {
-        fontSize: 28,
-        fontWeight: 'bold',
+        fontSize:24,
+        fontWeight:"bold",
+        color:"white",
+        marginBottom: 20,
+        marginTop:20,
+        textAlign: "center",
+        borderRadius:20,
+        backgroundColor:'#6F73D2'
     },
-    body: {
-        backgroundColor: '#fffcc9',
-        width: '102%',
-        margin: 10,
+    chatContainer: {
+        flexGrow:1,
+        justifyContent:"flex-end",
     },
-    bot: {
-        fontSize: 16,
+    inputContainer: {
+        flexDirection: "row",
+        alignItems: "center",
+        marginTop: 10,
     },
     input: {
-        borderWidth: 1,
-        borderColor: 'black',
-        width: '90%',
-        height: 60,
-        marginBottom: 10,
-        borderRadius: 10,
+        flex: 1,
+        height: 50,
+        marginRight: 10,
+        padding: 8,
+        borderColor: "#333",
+        borderWidth:1,
+        borderRadius: 25,
+        color: "#333",
+        backgroundColor: "#fff",
     },
     button: {
-        backgroundColor: 'yellow',
-        width: '90%',
-        height: 60,
-        borderRadius: 10,
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginBottom: 10,
+        padding: 10,
+        borderRadius: 25,
+        backgroundColor:'#6F73D2'
     },
     buttonText: {
-        fontSize: 18,
-        fontWeight: 'bold',
-        color: 'blue',
+        color: 'white',
+        textAlign: "center",
     },
+    loading: {
+        marginTop: 10,
+    },
+    error: {
+        color: "red",
+        marginTop: 10,
+    },
+
 });
 
 export default Chat;

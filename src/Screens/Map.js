@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView } from 'react-native'
+import { View, Text, Image, StyleSheet, TouchableOpacity, Dimensions, SafeAreaView } from 'react-native'
 import MapView, { Marker } from 'react-native-maps'
 import NavBar from '../components/NavBar';
+
+const windowHeight = Dimensions.get('window').height;
+const windowWidth = Dimensions.get('window').width;
 
 const Map = () => {
     const [showImage, setShowImage] = useState(true);
@@ -11,7 +14,7 @@ const Map = () => {
     };
 
     return (
-        <View>
+        <SafeAreaView>
         <NavBar/>
         <View style={styles.container}>
             
@@ -37,7 +40,7 @@ const Map = () => {
                 <Text style={styles.buttonText}>{showImage ? 'Google maps' : 'Mapa DC'}</Text>
             </TouchableOpacity>
             </View>
-        </View>
+        </SafeAreaView>
     );
 };
 
@@ -49,29 +52,31 @@ const styles = StyleSheet.create({
         height:'85%'
     },
     image: {
+        marginTop:'5%',
         borderWidth:2,
         borderColor:'#6F73D2',
         borderRadius:10,
-        width: 350,
-        height: 175,
+        width: windowWidth*0.80,
+        height: windowHeight*0.60,
         resizeMode: 'cover',
       },
       mapBorder:{
+        marginTop:'5%',
         padding:2,
         borderWidth:2,
         borderColor:'#6F73D2',
         borderRadius:10,
       },
       map: {
-        width: 350,
-        height: 175,
-        resizeMode: 'contain',
+        width: windowWidth*0.80,
+        height: windowHeight*0.60,
+        resizeMode: 'cover',
       },
       button: {
             flexDirection:'row',
             marginTop:'2%',
             marginBottom: '2%',
-            padding:20,
+            padding:windowHeight*0.04,
             borderRadius:20,
             backgroundColor: '#6F73D2'
       },

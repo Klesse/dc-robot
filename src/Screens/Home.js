@@ -1,8 +1,11 @@
 import React from 'react'
-import { View, Text, StyleSheet, Image, TouchableOpacity, Alert } from 'react-native'
+import { View, Text, StyleSheet, Image, TouchableOpacity, Dimensions } from 'react-native'
 import NavBar from '../components/NavBar'
 import {Feather} from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
+
+const windowHeight = Dimensions.get('window').height;
+const windowWidth = Dimensions.get('window').width;
 
 // Bluetooth Serial (Sem ser LE)
 // MorphCast
@@ -56,7 +59,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#D9F0FF'
     },
     image: {
-        height:150
+        height:windowHeight*0.40
     },
     button: {
         flexDirection:'row',
@@ -67,6 +70,7 @@ const styles = StyleSheet.create({
     },
     buttonText: {
         color: 'white',
+        fontSize:windowHeight*0.05,
         fontWeight: 'bold'
     },
     icon_container: {
@@ -76,7 +80,7 @@ const styles = StyleSheet.create({
     info_icon: {
         color:'white',
         textAlign: 'center',
-        fontSize:30,
+        fontSize: windowHeight*0.10,
         backgroundColor:'black',
         borderRadius: 50,
         marginLeft:20,
