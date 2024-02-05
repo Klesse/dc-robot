@@ -1,6 +1,6 @@
 
 import React from 'react'
-import {View, Text, SafeAreaView, StyleSheet, Dimensions, TouchableOpacity} from 'react-native'
+import {View, Image, SafeAreaView, StyleSheet, Dimensions, TouchableOpacity} from 'react-native'
 import {Feather} from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
 
@@ -35,11 +35,6 @@ const NavBar = () => {
                   <Feather name={'home'} style={[styles.icons, {fontSize:viewHeight*0.6}]}/>
                 </TouchableOpacity>
             </View>
-            
-
-            <View style={styles.icons_center}>
-                <Feather name={'hard-drive'} style={[styles.icons, {fontSize:viewHeight*0.6}]}/>
-            </View>
             <View style={styles.icons_right}>
               <TouchableOpacity onPress={goToMapScreen}>
                 <Feather name={'map-pin'} style={[styles.icons, {fontSize:viewHeight*0.6}]}/>
@@ -70,9 +65,11 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         
       },
-      icons_center: {
+      logo: {
         justifyContent: 'center',
         alignItems: 'center',
+        height:50,
+        width:50
       },
       icons_right: {
         alignItems: 'center',
