@@ -30,20 +30,20 @@ const styles = StyleSheet.create({
     },
     userChatItem:{
         alignSelf:"flex-end",
-        backgroundColor:"#007AFF",
+        backgroundColor:"#666666",
     },
     modelChatItem: {
         alignSelf: "flex-start",
-        backgroundColor:"#000",
+        backgroundColor:"#000000",
     },
     chatText: {
         fontSize:16,
         color:'#fff',
     },
     speakerIcon:{
-        position:'absolute',
-        bottom:5,
-        right:5,
+        position:'relative',
+        top:5,
+        flexDirection:'row-reverse'
     },
 });
 
